@@ -1,7 +1,11 @@
 package frc.robot;
 
 public final class Constants {
-  public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
+  public static class ControllerIds {
+    public static final int
+      joystick = 0,
+      xboxController = 1;
   }
+  public static class MotorIds {}
+  public static class PneumaticIds {}
 }
