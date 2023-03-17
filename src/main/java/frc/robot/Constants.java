@@ -5,7 +5,7 @@ public final class Constants {
     public static final int
       joystick = 0,
       xboxController = 1;
-  }//meow mix armando is a meow
+  }//meow mix
   public static class MotorIds {}
   public static class PneumaticIds {}
 }
