@@ -13,4 +13,9 @@ public class ArmCmd extends CommandBase {
 
     @Override public boolean
     isFinished() {return false;}
+
+    @Override public void
+    end(boolean interrupted) {
+        arm.setOutput(0);
+    }
 }
