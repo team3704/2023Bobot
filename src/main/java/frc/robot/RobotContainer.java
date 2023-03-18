@@ -1,10 +1,18 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.ElevatorCmd;
+import frc.robot.subsystems.ArmSub;
+import frc.robot.subsystems.ElevatorSub;
 
 public class RobotContainer {
+  private final ElevatorSub sub_elevator = new ElevatorSub();
+  private final ArmSub      sub_arm      = new ArmSub();
+
+  public static final CommandXboxController controller = new CommandXboxController(1);
   // The robot's subsystems and commands are defined here...
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
@@ -28,6 +36,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    controller.leftBumper().whileTrue(new ElevatorCmd(sub_elevator));
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
     // new Trigger(m_exampleSubsystem::exampleCondition)

@@ -5,7 +5,16 @@ public final class Constants {
     public static final int
       joystick = 0,
       xboxController = 1;
-  }//meow mix armando is a meow
-  public static class MotorIds {}
+  }
+  public static class MotorIds {
+    public static int // final
+      DT_BackLeft,
+      DT_BackRight,
+      DT_FrontLeft,
+      DT_FrontRight,
+      Arm_Left,
+      Arm_Right,
+      Elevator;
+  }
   public static class PneumaticIds {}
 }
