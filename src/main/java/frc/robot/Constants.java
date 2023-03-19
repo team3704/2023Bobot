@@ -8,12 +8,12 @@ public final class Constants {
   }
   public static class MotorIds {
     public static int // final
-      DT_BackLeft,
-      DT_BackRight,
-      DT_FrontLeft,
-      DT_FrontRight,
-      Arm_Left,
-      Arm_Right,
+      DT_BackLeft = 3,
+      DT_BackRight = 1,
+      DT_FrontLeft = 2,
+      DT_FrontRight = 4,
+      Arm_Left = 6,
+      Arm_Right = 8,
       Elevator;
   }
   public static class PneumaticIds {}

@@ -26,7 +26,7 @@ public class ElevatorCmd extends CommandBase {
 
     @Override public void
     execute() {
-        elevator.setOutput(controller.getRightY());
+        elevator.setOutput(controller.getLeftY());
     }
 
     @Override public boolean
