@@ -30,9 +30,10 @@ public class RobotContainer {
     cmd_holdArm = new ArmCmd(sub_arm, arm -> {
       arm.setOutput(
         // and this one
-        arm.liftPidController.calculate(0, 0)
+        arm.liftPidController.calculate(arm.getPosition(), arm.getWantedPosition())
       );
-    });
+    },
+    arm -> {arm.positionSnapshot();});
     // NOTE: DO NOT EDIT THE CODE ABOVE, IT MAY LAG YOUR VSC
   
   public static double testSpeed = 0.5;
@@ -67,6 +68,7 @@ public class RobotContainer {
       testSpeed = MathUtil.clamp(testSpeed - 0.05, 0, 1);
       SmartDashboard.putNumber("Speed", testSpeed);
     }));
+    controller.rightBumper().onFalse(cmd_holdArm);
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     // new Trigger(m_exampleSubsystem::exampleCondition)
     //    .onTrue(new ExampleCommand(m_exampleSubsystem));

@@ -14,11 +14,23 @@ public class ArmCmd extends CommandBase {
         public void execute(ArmSub arm);
     }
     private final ArmSub arm;
-    private final Function test;
+    private final Function test, init;
     public ArmCmd(ArmSub arm, Function test) {
         this.arm = arm;
         this.test = test;
+        init = null;
         addRequirements(arm);
+    }
+    public ArmCmd(ArmSub arm, Function test, Function init) {
+        this.arm = arm;
+        this.test = test;
+        this.init = init;
+        addRequirements(arm);
+    }
+
+    @Override public void
+    initialize() {
+        if(init != null) init.execute(arm);
     }
 
     @Override public void
