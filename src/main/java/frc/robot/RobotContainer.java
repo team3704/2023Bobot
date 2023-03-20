@@ -50,7 +50,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-    configureBindings();
+    configureBindings(); // x = cones y = boxes
   }
 
   /**
@@ -74,7 +74,7 @@ public class RobotContainer {
       SmartDashboard.putNumber("Speed", testSpeed);
     }));
     
-    controller.rightBumper().onFalse(cmd_holdArm);
+    controller.rightBumper().whileFalse(cmd_holdArm);
 
     controller.rightTrigger(0.6).onTrue(runOnce(() -> {
       sub_claw.openClaw();
