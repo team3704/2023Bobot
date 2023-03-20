@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -13,13 +14,16 @@ public class DriveTrainSub extends SubsystemBase {
     TalonFX frontrightmotor = new TalonFX(Constants.MotorIds.DT_FrontRight);
     TalonFX backleftmotor = new TalonFX(Constants.MotorIds.DT_BackLeft);
     TalonFX backrightmotor = new TalonFX(Constants.MotorIds.DT_BackRight);
-    DifferentialDrive CtrlDrive = new DifferentialDrive((MotorController) frontleftmotor, (MotorController) frontrightmotor);
+    DifDrive CtrlDrive = new DifDrive(frontleftmotor, frontrightmotor);
     public DriveTrainSub() {
         backleftmotor.follow(frontleftmotor);
         backrightmotor.follow(frontrightmotor);
     }
     @Override public void periodic() {
-        CtrlDrive.arcadeDrive(RobotContainer.controller.getLeftY(), RobotContainer.controller.getLeftX());
+        CtrlDrive.arcadeDrive(
+            RobotContainer.controller.getRightX() * RobotContainer.testSpeed,
+            RobotContainer.controller.getLeftY() * RobotContainer.testSpeed
+            );
     }
 
 }
