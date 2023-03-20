@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmCmd;
 import frc.robot.commands.ElevatorCmd;
 import frc.robot.subsystems.ArmSub;
+import frc.robot.subsystems.DriveTrainSub;
 import frc.robot.subsystems.ClawSub;
 import frc.robot.subsystems.ElevatorSub;
 
@@ -19,6 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotContainer {
   private final ElevatorSub sub_elevator = new ElevatorSub();
   private final ArmSub      sub_arm      = new ArmSub();
+  private final DriveTrainSub actualDrive = new DriveTrainSub();
+
   private final ClawSub sub_claw = new ClawSub();
   private final Command
     cmd_elevator = new ElevatorCmd(sub_elevator),
