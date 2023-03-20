@@ -3,6 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ArmCmd;
 import frc.robot.commands.ElevatorCmd;
 import frc.robot.subsystems.ArmSub;
@@ -12,17 +14,13 @@ import frc.robot.subsystems.ElevatorSub;
 
 import static edu.wpi.first.wpilibj2.command.Commands.runOnce;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class RobotContainer {
-  private final ElevatorSub sub_elevator = new ElevatorSub();
-  private final ArmSub      sub_arm      = new ArmSub();
-  private final DriveTrainSub actualDrive = new DriveTrainSub();
+  @SuppressWarnings("unused")
+  private final DriveTrainSub actualDrive  = new DriveTrainSub();
+  private final ElevatorSub   sub_elevator = new ElevatorSub();
+  private final ArmSub        sub_arm      = new ArmSub();
+  private final ClawSub       sub_claw     = new ClawSub();
 
-  private final ClawSub sub_claw = new ClawSub();
   private final Command
     cmd_elevator = new ElevatorCmd(sub_elevator),
 
@@ -52,7 +50,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-    configureBindings();
+    configureBindings(); // x = cones y = boxes
   }
 
   /**
@@ -76,7 +74,7 @@ public class RobotContainer {
       SmartDashboard.putNumber("Speed", testSpeed);
     }));
     
-    controller.rightBumper().onFalse(cmd_holdArm);
+    controller.rightBumper().whileFalse(cmd_holdArm);
 
     controller.rightTrigger(0.6).onTrue(runOnce(() -> {
       sub_claw.openClaw();

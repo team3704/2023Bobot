@@ -4,8 +4,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -17,6 +15,7 @@ public class DriveTrainSub extends SubsystemBase {
     TalonFX backrightmotor = new TalonFX(Constants.MotorIds.DT_BackRight);
     DifDrive CtrlDrive = new DifDrive(frontleftmotor, frontrightmotor);
     public DriveTrainSub() {
+
         backleftmotor.follow(frontleftmotor);
         backrightmotor.follow(frontrightmotor);
     }
