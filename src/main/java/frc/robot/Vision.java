@@ -36,7 +36,7 @@ public class Vision {
         return Math.abs(getXOffset() / 60) + 0.35;
     }
 
-    public double getXOffset() {return tx.getDouble(0.0);}
-    public double getYOffset() {return ty.getDouble(0.0);}
-    public double getArea() {return ta.getDouble(0.0);}
+    public static double getXOffset() {return tx.getDouble(0.0);}
+    public static double getYOffset() {return ty.getDouble(0.0);}
+    public static double getArea() {return ta.getDouble(0.0);}
 }

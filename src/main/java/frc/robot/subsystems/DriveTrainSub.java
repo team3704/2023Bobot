@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
@@ -25,5 +26,10 @@ public class DriveTrainSub extends SubsystemBase {
             RobotContainer.controller.getLeftY() * RobotContainer.testSpeed
             );
     }
+
+public void motorOverride (double output, double output2) {
+    frontleftmotor.set(ControlMode.PercentOutput, output);
+    frontrightmotor.set(ControlMode.PercentOutput, output2);
+}
 
 }
