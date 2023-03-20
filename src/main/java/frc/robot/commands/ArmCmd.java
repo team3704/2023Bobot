@@ -7,17 +7,23 @@ import frc.robot.subsystems.ArmSub;
 
 import static frc.robot.RobotContainer.controller;
 
-public class ArmCmd extends CommandBase {
-    private final ArmSub arm;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
-    public ArmCmd(ArmSub arm) {
+public class ArmCmd extends CommandBase {
+    public static interface Function {
+        public void execute(ArmSub arm);
+    }
+    private final ArmSub arm;
+    private final Function test;
+    public ArmCmd(ArmSub arm, Function test) {
         this.arm = arm;
+        this.test = test;
         addRequirements(arm);
     }
 
     @Override public void
     execute() {
-        arm.setOutput(MathUtil.applyDeadband(controller.getRightY(), 0.05) * RobotContainer.testSpeed);
+        test.execute(arm);
     }
 
     @Override public boolean
