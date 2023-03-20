@@ -12,6 +12,7 @@ import static com.ctre.phoenix.motorcontrol.TalonFXControlMode.*;
 
 public class ArmSub extends SubsystemBase {
     public final PIDController liftPidController = new PIDController(0.000001, 0, 0);
+    private double position = 0;
     public final TalonFX // change both to private final when done testing
         motorLeft = new TalonFX(Arm_Left),
         motorRight = new TalonFX(Arm_Right);
@@ -19,11 +20,11 @@ public class ArmSub extends SubsystemBase {
     public ArmSub() {
         motorLeft.follow(motorRight);
         motorLeft.setInverted(TalonFXInvertType.OpposeMaster);
+        motorRight.setSelectedSensorPosition(0);
     }
 
     @Override public void
     periodic() {
-        SmartDashboard.putNumber("Left Motor Encoder", motorLeft.getSelectedSensorPosition());
         SmartDashboard.putNumber("Right Motor Encoder", motorRight.getSelectedSensorPosition());
     }
 
@@ -33,4 +34,8 @@ public class ArmSub extends SubsystemBase {
         // motorRight.set(TalonFXControlMode.Position, output);
         // HOLY HECK IS THAT POSITION CONTROL WITHOUT PID???
     }
+
+    public double getPosition() {return motorRight.getSelectedSensorPosition();}
+    public void positionSnapshot() {position = getPosition();}
+    public double getWantedPosition() {return position;}
 }
