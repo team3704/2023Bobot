@@ -10,6 +10,8 @@ import frc.robot.subsystems.ElevatorSub;
 
 import static edu.wpi.first.wpilibj2.command.Commands.runOnce;
 
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -19,8 +21,20 @@ public class RobotContainer {
 
   private final Command
     cmd_elevator = new ElevatorCmd(sub_elevator),
-    cmd_arm      = new ArmCmd(sub_arm);
 
+    // NOTE: DO NOT EDIT THE CODE BELOW, IT MAY LAG YOUR VSC
+    cmd_moveArm  = new ArmCmd(sub_arm, arm -> {
+      // specifically this line
+      arm.setOutput(MathUtil.applyDeadband(controller.getRightY(), 0.05) * testSpeed);
+    }),
+    cmd_holdArm = new ArmCmd(sub_arm, arm -> {
+      arm.setOutput(
+        // and this one
+        arm.liftPidController.calculate(0, 0)
+      );
+    });
+    // NOTE: DO NOT EDIT THE CODE ABOVE, IT MAY LAG YOUR VSC
+  
   public static double testSpeed = 0.5;
   public static final CommandXboxController controller = new CommandXboxController(1);
   // The robot's subsystems and commands are defined here...
@@ -44,7 +58,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     controller.leftBumper().whileTrue(cmd_elevator);
-    controller.rightBumper().whileTrue(cmd_arm);
+    controller.rightBumper().whileTrue(cmd_moveArm);
     controller.povUp().onTrue(runOnce(() -> {
       testSpeed = MathUtil.clamp(testSpeed + 0.05, 0, 1);
       SmartDashboard.putNumber("Speed", testSpeed);
