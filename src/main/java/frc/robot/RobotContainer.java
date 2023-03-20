@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmCmd;
 import frc.robot.commands.ElevatorCmd;
 import frc.robot.subsystems.ArmSub;
+import frc.robot.subsystems.ClawSub;
 import frc.robot.subsystems.ElevatorSub;
 
 import static edu.wpi.first.wpilibj2.command.Commands.runOnce;
@@ -18,7 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotContainer {
   private final ElevatorSub sub_elevator = new ElevatorSub();
   private final ArmSub      sub_arm      = new ArmSub();
-
+  private final ClawSub sub_claw = new ClawSub();
   private final Command
     cmd_elevator = new ElevatorCmd(sub_elevator),
 
@@ -59,16 +60,29 @@ public class RobotContainer {
    */
   private void configureBindings() {
     controller.leftBumper().whileTrue(cmd_elevator);
+    
     controller.rightBumper().whileTrue(cmd_moveArm);
+    
     controller.povUp().onTrue(runOnce(() -> {
       testSpeed = MathUtil.clamp(testSpeed + 0.05, 0, 1);
       SmartDashboard.putNumber("Speed", testSpeed);
     }));
+    
     controller.povDown().onTrue(runOnce(() -> {
       testSpeed = MathUtil.clamp(testSpeed - 0.05, 0, 1);
       SmartDashboard.putNumber("Speed", testSpeed);
     }));
+    
     controller.rightBumper().onFalse(cmd_holdArm);
+
+    controller.rightTrigger(0.6).onTrue(runOnce(() -> {
+      sub_claw.openClaw();
+    }));
+
+    controller.rightTrigger(0.6).onFalse(runOnce(() -> {
+      sub_claw.closeClaw();
+    }));
+
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     // new Trigger(m_exampleSubsystem::exampleCondition)
     //    .onTrue(new ExampleCommand(m_exampleSubsystem));
