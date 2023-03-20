@@ -11,8 +11,8 @@ import static frc.robot.Constants.MotorIds.*;
 import static com.ctre.phoenix.motorcontrol.TalonFXControlMode.*;
 
 public class ArmSub extends SubsystemBase {
-    private final PIDController liftPidController = new PIDController(0.000001, 0, 0);
-    private final TalonFX
+    public final PIDController liftPidController = new PIDController(0.000001, 0, 0);
+    public final TalonFX // change both to private final when done testing
         motorLeft = new TalonFX(Arm_Left),
         motorRight = new TalonFX(Arm_Right);
 
