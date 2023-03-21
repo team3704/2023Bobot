@@ -1,6 +1,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.math.MathUtil;
@@ -16,7 +18,6 @@ import frc.robot.subsystems.ElevatorSub;
 import static edu.wpi.first.wpilibj2.command.Commands.runOnce;
 
 public class RobotContainer {
-  @SuppressWarnings("unused")
   private final DriveTrainSub actualDrive  = new DriveTrainSub();
   private final ElevatorSub   sub_elevator = new ElevatorSub();
   private final ArmSub        sub_arm      = new ArmSub();
@@ -24,18 +25,15 @@ public class RobotContainer {
 
   private final Command
     cmd_elevator = new ElevatorCmd(sub_elevator),
-    cmd_moveArm  = new ArmCmd(sub_arm, arm -> {
-      arm.setOutput(MathUtil.applyDeadband(controller.getRightY(), 0.05) * testSpeed);
-    }),
+    cmd_moveArm  = new ArmCmd(sub_arm, arm -> arm.pidMove(RobotContainer.controller.getLeftTriggerAxis())),
     cmd_holdArm = new ArmCmd(sub_arm, arm -> {
-      arm.setOutput(
-        arm.liftPidController.calculate(arm.getPosition(), arm.getWantedPosition())
-      );
-    },
-    arm -> {arm.positionSnapshot();}),
+        arm.setOutput(
+          arm.liftPidController.calculate(arm.getPosition(), arm.getWantedPosition())
+        );
+      }, arm -> arm.positionSnapshot()
+    ),
     
     cmd_AimAssist = new AimAssistCmd(actualDrive);
-    // NOTE: DO NOT EDIT THE CODE ABOVE, IT MAY LAG YOUR VSC
   
   public static double testSpeed = 0.5;
   public static final CommandXboxController controller = new CommandXboxController(0);
@@ -59,9 +57,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     controller.leftBumper().whileTrue(cmd_elevator);
-    
-    controller.rightBumper().whileTrue(cmd_moveArm);
-    
+        
     controller.povUp().onTrue(runOnce(() -> {
       testSpeed = MathUtil.clamp(testSpeed + 0.05, 0, 1);
       SmartDashboard.putNumber("Speed", testSpeed);
@@ -82,8 +78,8 @@ public class RobotContainer {
       sub_claw.closeClaw();
     }));
 
-    controller.a().onTrue(runOnce(() -> {sub_arm.writePosition();}));
-    controller.b().onTrue(runOnce(() -> {sub_arm.zero();}));
+    controller.povLeft().onTrue(runOnce(() -> {sub_arm.writePosition();}));
+    controller.b().onTrue(runOnce(() -> {sub_arm.resetEncoder();}));
 
     controller.x().whileTrue(cmd_AimAssist);
     
@@ -94,6 +90,16 @@ public class RobotContainer {
     // new Trigger(m_exampleSubsystem::exampleCondition)
     //    .onTrue(new ExampleCommand(m_exampleSubsystem));
 }
+  public void scheduleTeleop() {
+    CommandScheduler.getInstance().schedule(cmd_moveArm);
+  }
+  public void descheduleTeleop() {
+    CommandScheduler.getInstance().cancelAll();
+  }
+
+  public void initialize() {
+    sub_arm.resetEncoder();
+  }
 
   public Command getAutonomousSequence() {
     return null;
