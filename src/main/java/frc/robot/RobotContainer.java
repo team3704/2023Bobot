@@ -38,7 +38,7 @@ public class RobotContainer {
     // NOTE: DO NOT EDIT THE CODE ABOVE, IT MAY LAG YOUR VSC
   
   public static double testSpeed = 0.5;
-  public static final CommandXboxController controller = new CommandXboxController(1);
+  public static final CommandXboxController controller = new CommandXboxController(0);
   // The robot's subsystems and commands are defined here...
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
