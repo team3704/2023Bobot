@@ -14,7 +14,7 @@ import static com.ctre.phoenix.motorcontrol.TalonFXControlMode.*;
 public class ArmSub extends SubsystemBase {
     public final PIDController liftPidController = new PIDController(0.000008, 0.0000005, 0.0000005);
     private double position = 0;
-    private double maxHeight = -90000;
+    private double maxHeight = -89500;
     public final TalonFX // change both to private final when done testing
         motorLeft = new TalonFX(Arm_Left),
         motorRight = new TalonFX(Arm_Right);
@@ -43,10 +43,10 @@ public class ArmSub extends SubsystemBase {
     public void writePosition() {
         SmartDashboard.putNumber("Arm snapshot", motorRight.getSelectedSensorPosition());
     }
-    public void zero() {
+    public void resetEncoder() {
         motorRight.setSelectedSensorPosition(0);
     }
     public void pidMove(double triggerValue) {
-        motorRight.set(TalonFXControlMode.PercentOutput, triggerValue * maxHeight);
+        motorRight.set(TalonFXControlMode.PercentOutput, (triggerValue * maxHeight) - 500);
     }
 }
