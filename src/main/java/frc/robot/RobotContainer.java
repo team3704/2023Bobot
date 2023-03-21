@@ -36,7 +36,7 @@ public class RobotContainer {
     cmd_AimAssist = new AimAssistCmd(actualDrive);
   
   public static double testSpeed = 0.5;
-  public static final CommandXboxController controller = new CommandXboxController(0);
+  public static final CommandXboxController controller = new CommandXboxController(1);
   // The robot's subsystems and commands are defined here...
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
