@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.AimAssistCmd;
 import frc.robot.commands.ArmCmd;
 import frc.robot.commands.ElevatorCmd;
 import frc.robot.subsystems.ArmSub;
@@ -35,7 +36,8 @@ public class RobotContainer {
         arm.liftPidController.calculate(arm.getPosition(), arm.getWantedPosition())
       );
     },
-    arm -> {arm.positionSnapshot();});
+    arm -> {arm.positionSnapshot();}),
+    cmd_AimAssist = new AimAssistCmd(actualDrive);
     // NOTE: DO NOT EDIT THE CODE ABOVE, IT MAY LAG YOUR VSC
   
   public static double testSpeed = 0.5;
@@ -83,6 +85,11 @@ public class RobotContainer {
     controller.rightTrigger(0.6).onFalse(runOnce(() -> {
       sub_claw.closeClaw();
     }));
+
+    controller.x().whileTrue(cmd_AimAssist);
+    
+    controller.y().whileTrue(cmd_AimAssist);
+    // Remind to Change - Past Aldrin. //
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     // new Trigger(m_exampleSubsystem::exampleCondition)
