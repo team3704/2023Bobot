@@ -23,20 +23,15 @@ public class RobotContainer {
 
   private final Command
     cmd_elevator = new ElevatorCmd(sub_elevator),
-
-    // NOTE: DO NOT EDIT THE CODE BELOW, IT MAY LAG YOUR VSC
     cmd_moveArm  = new ArmCmd(sub_arm, arm -> {
-      // specifically this line
       arm.setOutput(MathUtil.applyDeadband(controller.getRightY(), 0.05) * testSpeed);
     }),
     cmd_holdArm = new ArmCmd(sub_arm, arm -> {
       arm.setOutput(
-        // and this one
         arm.liftPidController.calculate(arm.getPosition(), arm.getWantedPosition())
       );
     },
     arm -> {arm.positionSnapshot();});
-    // NOTE: DO NOT EDIT THE CODE ABOVE, IT MAY LAG YOUR VSC
   
   public static double testSpeed = 0.5;
   public static final CommandXboxController controller = new CommandXboxController(1);
@@ -45,7 +40,6 @@ public class RobotContainer {
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   // private final CommandXboxController m_driverController =
-      // new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -83,6 +77,9 @@ public class RobotContainer {
     controller.rightTrigger(0.6).onFalse(runOnce(() -> {
       sub_claw.closeClaw();
     }));
+
+    controller.a().onTrue(runOnce(() -> {sub_arm.writePosition();}));
+    controller.b().onTrue(runOnce(() -> {sub_arm.zero();}));
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     // new Trigger(m_exampleSubsystem::exampleCondition)
