@@ -35,7 +35,6 @@ public class RobotContainer {
     arm -> {arm.positionSnapshot();}),
     
     cmd_AimAssist = new AimAssistCmd(actualDrive);
-    // NOTE: DO NOT EDIT THE CODE ABOVE, IT MAY LAG YOUR VSC
   
   public static double testSpeed = 0.5;
   public static final CommandXboxController controller = new CommandXboxController(1);
