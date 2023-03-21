@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
@@ -11,8 +12,9 @@ import static frc.robot.Constants.MotorIds.*;
 import static com.ctre.phoenix.motorcontrol.TalonFXControlMode.*;
 
 public class ArmSub extends SubsystemBase {
-    public final PIDController liftPidController = new PIDController(0.000005, 0.0000001, 0);
+    public final PIDController liftPidController = new PIDController(0.000008, 0.0000005, 0.0000005);
     private double position = 0;
+    private double maxHeight = -90000;
     public final TalonFX // change both to private final when done testing
         motorLeft = new TalonFX(Arm_Left),
         motorRight = new TalonFX(Arm_Right);
@@ -38,4 +40,13 @@ public class ArmSub extends SubsystemBase {
     public double getPosition() {return motorRight.getSelectedSensorPosition();}
     public void positionSnapshot() {position = getPosition();}
     public double getWantedPosition() {return position;}
+    public void writePosition() {
+        SmartDashboard.putNumber("Arm snapshot", motorRight.getSelectedSensorPosition());
+    }
+    public void zero() {
+        motorRight.setSelectedSensorPosition(0);
+    }
+    public void pidMove(double triggerValue) {
+        motorRight.set(TalonFXControlMode.PercentOutput, triggerValue * maxHeight);
+    }
 }

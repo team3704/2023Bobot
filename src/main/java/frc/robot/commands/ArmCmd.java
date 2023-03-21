@@ -35,7 +35,7 @@ public class ArmCmd extends CommandBase {
 
     @Override public void
     execute() {
-        test.execute(arm);
+        arm.pidMove(RobotContainer.controller.getLeftTriggerAxis());
     }
 
     @Override public boolean
