@@ -18,6 +18,14 @@ public class AimAssistCmd extends CommandBase {
     execute() {
         offset = Vision.getXOffset();
         fourTurtles.motorOverride(offset, offset);
+        
+        if (offset < -5) {
+            fourTurtles.motorOverride(-.3, .3);
+        }
+
+        if (offset > 5) {
+            fourTurtles.motorOverride(.3, -.3);
+        }
     }
     
     @Override public boolean
