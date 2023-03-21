@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
@@ -38,4 +39,13 @@ public class ArmSub extends SubsystemBase {
     public double getPosition() {return motorRight.getSelectedSensorPosition();}
     public void positionSnapshot() {position = getPosition();}
     public double getWantedPosition() {return position;}
+    public void writePosition() {
+        SmartDashboard.putNumber("Arm snapshot", motorRight.getSelectedSensorPosition());
+    }
+    public void zero() {
+        motorRight.setSelectedSensorPosition(0);
+    }
+    public void pidMove(double triggerValue) {
+        motorRight.set(TalonFXControlMode.PercentOutput, );
+    }
 }

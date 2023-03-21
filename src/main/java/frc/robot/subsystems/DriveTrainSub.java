@@ -28,7 +28,7 @@ public class DriveTrainSub extends SubsystemBase {
 
 public void motorOverride (double output, double output2) {
     frontleftmotor.set(ControlMode.PercentOutput, output);
-    frontrightmotor.set(ControlMode.PercentOutput, -output2);
+    frontrightmotor.set(ControlMode.PercentOutput, output2);
 }
 
 }
