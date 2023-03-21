@@ -23,7 +23,7 @@ public class DriveTrainSub extends SubsystemBase {
         CtrlDrive.arcadeDrive(
             RobotContainer.controller.getRightX() * RobotContainer.testSpeed,
             RobotContainer.controller.getLeftY() * RobotContainer.testSpeed
-            );
+        );
     }
 
 public void motorOverride (double output, double output2) {
