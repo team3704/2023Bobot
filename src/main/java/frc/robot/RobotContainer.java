@@ -28,7 +28,7 @@ public class RobotContainer {
   private final Command
     cmd_elevatorUp = new ElevatorCmd(sub_elevator, 1),
     cmd_elevatorDown = new ElevatorCmd(sub_elevator, -1),
-    cmd_moveArm  = new ArmCmd(sub_arm, arm -> arm.pidMove(RobotContainer.controller.getLeftTriggerAxis())),
+    cmd_moveArm  = new ArmCmd(sub_arm, arm -> arm.pidMove(RobotContainer.stickjoy.getY())),
     /*cmd_holdArm = new ArmCmd(sub_arm, arm -> {
         arm.setOutput(
           arm.armPidController.calculate(arm.getPosition(), arm.getWantedPosition())
