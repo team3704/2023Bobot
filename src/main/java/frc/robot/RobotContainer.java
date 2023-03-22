@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.math.MathUtil;
@@ -25,8 +26,9 @@ public class RobotContainer {
   private final ClawSub       sub_claw     = new ClawSub();
 
   private final Command
-    cmd_elevator = new ElevatorCmd(sub_elevator),
-    cmd_moveArm  = new ArmCmd(sub_arm, arm -> arm.pidMove(RobotContainer.controller.getLeftTriggerAxis())),
+    cmd_elevatorUp = new ElevatorCmd(sub_elevator, 1),
+    cmd_elevatorDown = new ElevatorCmd(sub_elevator, -1),
+    cmd_moveArm  = new ArmCmd(sub_arm, arm -> arm.pidMove(RobotContainer.stickjoy.getY())),
     /*cmd_holdArm = new ArmCmd(sub_arm, arm -> {
         arm.setOutput(
           arm.armPidController.calculate(arm.getPosition(), arm.getWantedPosition())
@@ -37,7 +39,9 @@ public class RobotContainer {
     cmd_clawIntake = new ClawIntakeCmd(sub_claw);
   
   public static double testSpeed = 0.5;
+  
   public static final CommandXboxController controller = new CommandXboxController(1);
+  public static final CommandJoystick stickjoy = new CommandJoystick(0);
   // The robot's subsystems and commands are defined here...
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
@@ -56,7 +60,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
    */
   private void configureBindings() {
-    controller.leftBumper().whileTrue(cmd_elevator);
+    controller.leftTrigger(0.6).whileTrue(cmd_elevatorDown);
+    controller.rightTrigger(0.6).whileTrue(cmd_elevatorUp);
 
     controller.povUp().onTrue(runOnce(() -> {
       testSpeed = MathUtil.clamp(testSpeed + 0.05, 0, 1);
@@ -71,23 +76,30 @@ public class RobotContainer {
     controller.leftStick().whileTrue(cmd_clawIntake);
     //controller.rightBumper().whileFalse(cmd_holdArm);
 
-    controller.rightTrigger(0.6).onTrue(runOnce(() -> {
+    stickjoy.button(1).onTrue(runOnce(() -> {
       sub_claw.openClaw();
     }));
 
-    controller.rightTrigger(0.6).onFalse(runOnce(() -> {
+    stickjoy.button(1).onFalse(runOnce(() -> {
       sub_claw.closeClaw();
     }));
-
+    stickjoy.axisGreaterThan(2, 0)
+      .onTrue(runOnce(()->{
+        sub_arm.lockingmethod();
+      }));
+      stickjoy.axisLessThan(2, 0)
+        .onTrue(runOnce(()->{
+          sub_arm.unlockingmethod();
+        }));
     controller.povLeft().onTrue(runOnce(() -> {sub_arm.writePosition();}));
-    controller.b().onTrue(runOnce(() -> {sub_arm.resetEncoder();}));
+    controller.x().onTrue(runOnce(() -> {sub_arm.resetEncoder();}));
 
-    controller.x().whileTrue(cmd_AimAssist);
+    controller.a().whileTrue(cmd_AimAssist);
     
-    controller.y().whileTrue(cmd_AimAssist);
+    controller.b().whileTrue(cmd_AimAssist);
     // Remind to Change - Past Aldrin. //
 
-    controller.a().onTrue(runOnce(() -> sub_arm.writePosition()));
+    controller.y().onTrue(runOnce(() -> sub_arm.writePosition()));
 }
   public void scheduleTeleop() {
     CommandScheduler.getInstance().schedule(cmd_moveArm);
