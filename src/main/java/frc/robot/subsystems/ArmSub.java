@@ -12,9 +12,9 @@ import static frc.robot.Constants.MotorIds.*;
 import static com.ctre.phoenix.motorcontrol.TalonFXControlMode.*;
 
 public class ArmSub extends SubsystemBase {
-    public final PIDController liftPidController = new PIDController(0.000008, 0.0000005, 0.0000005);
+    public final PIDController armPidController = new PIDController(0.00002, 0.000001, 0.0000000);
     private double position = 0;
-    private double maxHeight = -89500;
+    private double maxHeight = -55000;
     public final TalonFX // change both to private final when done testing
         motorLeft = new TalonFX(Arm_Left),
         motorRight = new TalonFX(Arm_Right);
@@ -47,6 +47,8 @@ public class ArmSub extends SubsystemBase {
         motorRight.setSelectedSensorPosition(0);
     }
     public void pidMove(double triggerValue) {
-        motorRight.set(TalonFXControlMode.PercentOutput, (triggerValue * maxHeight) - 500);
+        double wantedPosition = (triggerValue * maxHeight) - 500;
+        SmartDashboard.putNumber("desired", wantedPosition);
+        motorRight.set(TalonFXControlMode.PercentOutput, armPidController.calculate(getPosition(), wantedPosition));
     }
 }

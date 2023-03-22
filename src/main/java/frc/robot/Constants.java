@@ -14,7 +14,7 @@ public final class Constants {
       DT_FrontRight = 4,
       Arm_Left = 6,
       Arm_Right = 8,
-      Elevator;
+      Elevator = 5;
   }
   public static class PneumaticIds {}
 }
