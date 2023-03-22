@@ -12,9 +12,9 @@ import static frc.robot.Constants.MotorIds.*;
 import static com.ctre.phoenix.motorcontrol.TalonFXControlMode.*;
 
 public class ArmSub extends SubsystemBase {
-    public final PIDController armPidController = new PIDController(0.00002, 0.000001, 0.0000000);
+    public final PIDController armPidController = new PIDController(0.00002, 0.0000015, 0.00000001);
     private double position = 0;
-    private double maxHeight = -55000;
+    private double maxHeight = -65000;
     public final TalonFX // change both to private final when done testing
         motorLeft = new TalonFX(Arm_Left),
         motorRight = new TalonFX(Arm_Right);
