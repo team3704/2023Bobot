@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.ElevatorSub;
 
 import static frc.robot.RobotContainer.controller;
@@ -13,10 +14,11 @@ import static frc.robot.RobotContainer.controller;
  */
 public class ElevatorCmd extends CommandBase {
     private ElevatorSub elevator;
-
-    public ElevatorCmd(ElevatorSub elevator) {
+    private double movement;
+    public ElevatorCmd(ElevatorSub elevator, double movement) {
         this.elevator = elevator;
         addRequirements(elevator);
+        this.movement = movement;
     }
 
     @Override public void
@@ -26,7 +28,7 @@ public class ElevatorCmd extends CommandBase {
 
     @Override public void
     execute() {
-        elevator.setOutput(controller.getLeftX());
+        elevator.setOutput(movement*RobotContainer.testSpeed);
     }
 
     @Override public boolean
