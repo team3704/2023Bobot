@@ -25,7 +25,8 @@ public class RobotContainer {
   private final ClawSub       sub_claw     = new ClawSub();
 
   private final Command
-    cmd_elevator = new ElevatorCmd(sub_elevator),
+    cmd_elevatorUp = new ElevatorCmd(sub_elevator, 1),
+    cmd_elevatorDown = new ElevatorCmd(sub_elevator, -1),
     cmd_moveArm  = new ArmCmd(sub_arm, arm -> arm.pidMove(RobotContainer.controller.getLeftTriggerAxis())),
     /*cmd_holdArm = new ArmCmd(sub_arm, arm -> {
         arm.setOutput(
@@ -37,6 +38,7 @@ public class RobotContainer {
     cmd_clawIntake = new ClawIntakeCmd(sub_claw);
   
   public static double testSpeed = 0.5;
+  
   public static final CommandXboxController controller = new CommandXboxController(1);
   // The robot's subsystems and commands are defined here...
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
@@ -56,7 +58,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
    */
   private void configureBindings() {
-    controller.leftBumper().whileTrue(cmd_elevator);
+    controller.leftTrigger(0.6).whileTrue(cmd_elevatorDown);
+    controller.rightTrigger(0.6).whileTrue(cmd_elevatorUp);
 
     controller.povUp().onTrue(runOnce(() -> {
       testSpeed = MathUtil.clamp(testSpeed + 0.05, 0, 1);
@@ -80,14 +83,14 @@ public class RobotContainer {
     }));
 
     controller.povLeft().onTrue(runOnce(() -> {sub_arm.writePosition();}));
-    controller.b().onTrue(runOnce(() -> {sub_arm.resetEncoder();}));
+    controller.x().onTrue(runOnce(() -> {sub_arm.resetEncoder();}));
 
-    controller.x().whileTrue(cmd_AimAssist);
+    controller.a().whileTrue(cmd_AimAssist);
     
-    controller.y().whileTrue(cmd_AimAssist);
+    controller.b().whileTrue(cmd_AimAssist);
     // Remind to Change - Past Aldrin. //
 
-    controller.a().onTrue(runOnce(() -> sub_arm.writePosition()));
+    controller.y().onTrue(runOnce(() -> sub_arm.writePosition()));
 }
   public void scheduleTeleop() {
     CommandScheduler.getInstance().schedule(cmd_moveArm);
