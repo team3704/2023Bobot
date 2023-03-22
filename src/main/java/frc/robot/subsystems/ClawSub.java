@@ -13,5 +13,7 @@ public class ClawSub extends SubsystemBase {
    public void closeClaw () {
          hormones.set(Value.kReverse);
       }
+
+   public void setIntake(double output) {}
    
 }

@@ -9,6 +9,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AimAssistCmd;
 import frc.robot.commands.ArmCmd;
+import frc.robot.commands.ClawIntakeCmd;
 import frc.robot.commands.ElevatorCmd;
 import frc.robot.subsystems.ArmSub;
 import frc.robot.subsystems.DriveTrainSub;
@@ -32,8 +33,8 @@ public class RobotContainer {
         );
       }, arm -> arm.positionSnapshot()
     ),*/
-    
-    cmd_AimAssist = new AimAssistCmd(actualDrive);
+    cmd_AimAssist = new AimAssistCmd(actualDrive),
+    cmd_clawIntake = new ClawIntakeCmd(sub_claw);
   
   public static double testSpeed = 0.5;
   public static final CommandXboxController controller = new CommandXboxController(1);
@@ -45,7 +46,6 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Configure the trigger bindings
     configureBindings(); // x = cones y = boxes
   }
 
@@ -57,7 +57,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     controller.leftBumper().whileTrue(cmd_elevator);
-        
+
     controller.povUp().onTrue(runOnce(() -> {
       testSpeed = MathUtil.clamp(testSpeed + 0.05, 0, 1);
       SmartDashboard.putNumber("Speed", testSpeed);
@@ -68,6 +68,7 @@ public class RobotContainer {
       SmartDashboard.putNumber("Speed", testSpeed);
     }));
     
+    controller.leftStick().whileTrue(cmd_clawIntake);
     //controller.rightBumper().whileFalse(cmd_holdArm);
 
     controller.rightTrigger(0.6).onTrue(runOnce(() -> {
