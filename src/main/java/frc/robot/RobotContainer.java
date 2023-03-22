@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.math.MathUtil;
@@ -38,6 +39,7 @@ public class RobotContainer {
   
   public static double testSpeed = 0.5;
   public static final CommandXboxController controller = new CommandXboxController(1);
+  public static final CommandJoystick stickjoy = new CommandJoystick(0);
   // The robot's subsystems and commands are defined here...
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
@@ -71,14 +73,21 @@ public class RobotContainer {
     controller.leftStick().whileTrue(cmd_clawIntake);
     //controller.rightBumper().whileFalse(cmd_holdArm);
 
-    controller.rightTrigger(0.6).onTrue(runOnce(() -> {
+    stickjoy.button(1).onTrue(runOnce(() -> {
       sub_claw.openClaw();
     }));
 
-    controller.rightTrigger(0.6).onFalse(runOnce(() -> {
+    stickjoy.button(1).onFalse(runOnce(() -> {
       sub_claw.closeClaw();
     }));
-
+    stickjoy.axisGreaterThan(2, 0)
+      .onTrue(runOnce(()->{
+        sub_arm.lockingmethod();
+      }));
+      stickjoy.axisLessThan(2, 0)
+        .onTrue(runOnce(()->{
+          sub_arm.unlockingmethod();
+        }));
     controller.povLeft().onTrue(runOnce(() -> {sub_arm.writePosition();}));
     controller.b().onTrue(runOnce(() -> {sub_arm.resetEncoder();}));
 

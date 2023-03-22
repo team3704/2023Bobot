@@ -18,7 +18,8 @@ public class ArmSub extends SubsystemBase {
     public final TalonFX // change both to private final when done testing
         motorLeft = new TalonFX(Arm_Left),
         motorRight = new TalonFX(Arm_Right);
-
+        double wantedPosition = -500;
+        boolean locked = false;
     public ArmSub() {
         motorLeft.follow(motorRight);
         motorLeft.setInverted(TalonFXInvertType.OpposeMaster);
@@ -47,8 +48,17 @@ public class ArmSub extends SubsystemBase {
         motorRight.setSelectedSensorPosition(0);
     }
     public void pidMove(double triggerValue) {
-        double wantedPosition = (triggerValue * maxHeight) - 500;
+        if(!locked){
+            wantedPosition = (triggerValue * maxHeight) -500;
+        }
+        
         SmartDashboard.putNumber("desired", wantedPosition);
         motorRight.set(TalonFXControlMode.PercentOutput, armPidController.calculate(getPosition(), wantedPosition));
+    }
+    public void lockingmethod(){
+        locked = true;
+    }
+    public void unlockingmethod(){
+        locked = false;
     }
 }
