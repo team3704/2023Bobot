@@ -26,12 +26,12 @@ public class RobotContainer {
   private final Command
     cmd_elevator = new ElevatorCmd(sub_elevator),
     cmd_moveArm  = new ArmCmd(sub_arm, arm -> arm.pidMove(RobotContainer.controller.getLeftTriggerAxis())),
-    cmd_holdArm = new ArmCmd(sub_arm, arm -> {
+    /*cmd_holdArm = new ArmCmd(sub_arm, arm -> {
         arm.setOutput(
-          arm.liftPidController.calculate(arm.getPosition(), arm.getWantedPosition())
+          arm.armPidController.calculate(arm.getPosition(), arm.getWantedPosition())
         );
       }, arm -> arm.positionSnapshot()
-    ),
+    ),*/
     
     cmd_AimAssist = new AimAssistCmd(actualDrive);
   
@@ -68,7 +68,7 @@ public class RobotContainer {
       SmartDashboard.putNumber("Speed", testSpeed);
     }));
     
-    controller.rightBumper().whileFalse(cmd_holdArm);
+    //controller.rightBumper().whileFalse(cmd_holdArm);
 
     controller.rightTrigger(0.6).onTrue(runOnce(() -> {
       sub_claw.openClaw();
@@ -86,9 +86,7 @@ public class RobotContainer {
     controller.y().whileTrue(cmd_AimAssist);
     // Remind to Change - Past Aldrin. //
 
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    // new Trigger(m_exampleSubsystem::exampleCondition)
-    //    .onTrue(new ExampleCommand(m_exampleSubsystem));
+    controller.a().onTrue(runOnce(() -> sub_arm.writePosition()));
 }
   public void scheduleTeleop() {
     CommandScheduler.getInstance().schedule(cmd_moveArm);
