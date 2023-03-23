@@ -20,15 +20,18 @@ import frc.robot.subsystems.ElevatorSub;
 import static edu.wpi.first.wpilibj2.command.Commands.runOnce;
 
 public class RobotContainer {
+  public static final CommandXboxController controller = new CommandXboxController(1);
+  public static final CommandJoystick stickjoy = new CommandJoystick(0);
+
   private final DriveTrainSub actualDrive  = new DriveTrainSub();
   private final ElevatorSub   sub_elevator = new ElevatorSub();
   private final ArmSub        sub_arm      = new ArmSub();
   private final ClawSub       sub_claw     = new ClawSub();
 
   private final Command
-    cmd_elevatorUp = new ElevatorCmd(sub_elevator, 1),
+    cmd_elevatorUp   = new ElevatorCmd(sub_elevator, 1),
     cmd_elevatorDown = new ElevatorCmd(sub_elevator, -1),
-    cmd_moveArm  = new ArmCmd(sub_arm, arm -> arm.pidMove(RobotContainer.stickjoy.getY())),
+    cmd_moveArm      = new ArmCmd(sub_arm, arm -> arm.pidMove(-RobotContainer.stickjoy.getY())),
     /*cmd_holdArm = new ArmCmd(sub_arm, arm -> {
         arm.setOutput(
           arm.armPidController.calculate(arm.getPosition(), arm.getWantedPosition())
@@ -40,8 +43,6 @@ public class RobotContainer {
   
   public static double testSpeed = 0.5;
   
-  public static final CommandXboxController controller = new CommandXboxController(1);
-  public static final CommandJoystick stickjoy = new CommandJoystick(0);
   // The robot's subsystems and commands are defined here...
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 

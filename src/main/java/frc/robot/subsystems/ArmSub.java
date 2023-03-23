@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -12,9 +13,9 @@ import static frc.robot.Constants.MotorIds.*;
 import static com.ctre.phoenix.motorcontrol.TalonFXControlMode.*;
 
 public class ArmSub extends SubsystemBase {
-    public final PIDController armPidController = new PIDController(0.00002, 0.0000015, 0.00000001);
+    public final PIDController armPidController = new PIDController(0.000028, 0.0000001, 0.000004);
     private double position = 0;
-    private double maxHeight = -64500;
+    private double maxHeight = -67500;
     public final TalonFX // change both to private final when done testing
         motorLeft = new TalonFX(Arm_Left),
         motorRight = new TalonFX(Arm_Right);
@@ -49,7 +50,10 @@ public class ArmSub extends SubsystemBase {
     }
     public void pidMove(double triggerValue) {
         if(!locked){
-            wantedPosition = (triggerValue * maxHeight) -500;
+            //wantedPosition = (triggerValue * maxHeight) -500;
+            wantedPosition = MathUtil.clamp(
+                wantedPosition + MathUtil.applyDeadband(triggerValue, 0.05) * -1500, maxHeight, -500
+            );
         }
         
         SmartDashboard.putNumber("desired", wantedPosition);
