@@ -31,7 +31,7 @@ public class RobotContainer {
     cmd_moveArm      = new ArmCmd(sub_arm, arm -> arm.pidMove(-RobotContainer.stickjoy.getY())),
     cmd_AimCones     = new AimAssistCmd(actualDrive, sub_vision, "RetroReflective"),
     cmd_AimCubes     = new AimAssistCmd(actualDrive, sub_vision, "Fiducial Markers"),
-    cmd_autonomousCmd = new AutonomousCmd(actualDrive, );
+    cmd_autonomousCmd = new AutonomousCmd(actualDrive);
   
   public static double testSpeed = 0.45;
   
@@ -109,7 +109,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousSequence() {
-    return AutonomousCmd;
+    return cmd_autonomousCmd;
     /*
     new SequentialCommandGroup(null).andThen(null)
     Commands.runOnce(() -> {});
