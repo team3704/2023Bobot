@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -13,6 +12,7 @@ import static com.ctre.phoenix.motorcontrol.TalonSRXControlMode.*;;
 public class ElevatorSub extends SubsystemBase {
     private final TalonSRX liftMotor = new TalonSRX(Constants.MotorIds.Elevator);
     private final PIDController liftPidController = new PIDController(0.0000001, 0, 0);
+    double maxHeight = 50220.0;
 
     @Override public void
     periodic() {
@@ -26,7 +26,7 @@ public class ElevatorSub extends SubsystemBase {
     }
 
     public void setOutput(double output) {
-        if (double maxHeight = 791289128) {
+        if (maxHeight > 14582.000) {
             
         }
         // liftMotor.getSelectedSensorPosition()

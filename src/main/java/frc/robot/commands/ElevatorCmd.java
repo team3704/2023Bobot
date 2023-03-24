@@ -1,10 +1,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.ElevatorSub;
 
-import static frc.robot.RobotContainer.controller;
 /**
  * Ideas:
  * <p>- Stick controlled while holding certain button
@@ -27,7 +25,7 @@ public class ElevatorCmd extends CommandBase {
 
     @Override public void
     execute() {
-        elevator.setOutput(movement*RobotContainer.testSpeed);
+        elevator.setOutput(movement * 0.7);//RobotContainer.testSpeed);
     }
 
     @Override public boolean

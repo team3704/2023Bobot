@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -12,6 +13,7 @@ import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 import static edu.wpi.first.wpilibj2.command.Commands.runOnce;
+import static edu.wpi.first.wpilibj2.command.Commands.run;
 
 public class RobotContainer {
   public static final CommandXboxController controller = new CommandXboxController(1);
@@ -28,10 +30,9 @@ public class RobotContainer {
     cmd_elevatorDown = new ElevatorCmd(sub_elevator, -1),
     cmd_moveArm      = new ArmCmd(sub_arm, arm -> arm.pidMove(-RobotContainer.stickjoy.getY())),
     cmd_AimCones     = new AimAssistCmd(actualDrive, sub_vision, "RetroReflective"),
-    cmd_AimCubes     = new AimAssistCmd(actualDrive, sub_vision, "Fiducial Markers"),
-    cmd_clawIntake   = new ClawIntakeCmd(sub_claw);
+    cmd_AimCubes     = new AimAssistCmd(actualDrive, sub_vision, "Fiducial Markers");
   
-  public static double testSpeed = 0.5;
+  public static double testSpeed = 0.45;
   
   // The robot's subsystems and commands are defined here...
 
@@ -49,8 +50,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
    */
   private void configureBindings() {
-    stickjoy.button(6).whileTrue(cmd_elevatorUp);
-    stickjoy.button(7).whileTrue(cmd_elevatorDown);
+    //stickjoy.button(6).whileTrue(cmd_elevatorUp);
+    //stickjoy.button(7).whileTrue(cmd_elevatorDown);
     //controller.leftStick().whileTrue(cmd_clawIntake);
 
     stickjoy.button(1).onTrue(runOnce(() -> {
@@ -60,22 +61,22 @@ public class RobotContainer {
     stickjoy.button(1).onFalse(runOnce(() -> {
       sub_claw.closeClaw();
     }));
-    stickjoy.axisGreaterThan(2, 0)
+    /*stickjoy.axisGreaterThan(2, 0)
       .onTrue(runOnce(()->{
         sub_arm.lockingmethod();
     }));
     stickjoy.axisLessThan(2, 0)
       .onTrue(runOnce(()->{
         sub_arm.unlockingmethod();
-    }));
+    }));*/
 
-    stickjoy.button(11).onTrue(runOnce(() -> sub_arm.offsetEncoder(-3000)));
-    stickjoy.button(10).onTrue(runOnce(() -> sub_arm.offsetEncoder(3000)));
+    stickjoy.button(11).whileTrue(run(() -> sub_arm.offsetEncoder(-1000)));
+    stickjoy.button(10).whileTrue(run(() -> sub_arm.offsetEncoder(1000)));
 
     controller.povLeft().onTrue(runOnce(() -> {sub_arm.writePosition();}));
     controller.x().onTrue(runOnce(() -> {
       sub_elevator.resetEncoder();
-      sub_arm.resetEncoder();
+      //sub_arm.resetEncoder();
     }));
     controller.a().whileTrue(cmd_AimCones);
     controller.b().whileTrue(cmd_AimCubes);

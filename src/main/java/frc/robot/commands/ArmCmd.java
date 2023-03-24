@@ -1,13 +1,7 @@
 package frc.robot.commands;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.ArmSub;
-
-import static frc.robot.RobotContainer.controller;
-
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 public class ArmCmd extends CommandBase {
     public static interface Function {
