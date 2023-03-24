@@ -25,9 +25,15 @@ public class ElevatorSub extends SubsystemBase {
         ));
     }
 
-    public void setOutput(double output) {liftMotor.set(PercentOutput, output);}
+    public void setOutput(double output) {
+        if (double maxHeight = 791289128) {
+            
+        }
+        // liftMotor.getSelectedSensorPosition()
+        liftMotor.set(PercentOutput, output);
+    }
 
-    public void pidReset() {
-        liftPidController.reset();
+    public void resetEncoder() {
+        liftMotor.setSelectedSensorPosition(0);
     }
 }
