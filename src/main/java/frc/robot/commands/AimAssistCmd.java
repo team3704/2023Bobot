@@ -1,22 +1,31 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Vision;
 import frc.robot.subsystems.DriveTrainSub;
+import frc.robot.subsystems.VisionSub;
 
 public class AimAssistCmd extends CommandBase {
-    public AimAssistCmd(DriveTrainSub fourTurtles) {
-       addRequirements(fourTurtles);
+    public AimAssistCmd(DriveTrainSub fourTurtles, VisionSub vision, String pipeline) {
+       this.vision = vision;
        this.fourTurtles = fourTurtles;
+       this.pipeline = pipeline;
+       addRequirements(fourTurtles, vision);
     }
 
     DriveTrainSub fourTurtles;
+    VisionSub vision;
+    String pipeline;
     
     double offset = 0;
 
     @Override public void
+    initialize() {
+        vision.setEntry("pipeline", pipeline);
+    }
+
+    @Override public void
     execute() {
-        offset = Vision.getXOffset();
+        offset = vision.getXOffset();
         fourTurtles.motorOverride(offset, offset);
         
         if (offset < -5) {
