@@ -26,10 +26,9 @@ public class ElevatorSub extends SubsystemBase {
     }
 
     public void setOutput(double output) {
-        if (maxHeight > 14582.000) {
-            
+        if (liftMotor.getSelectedSensorPosition() >= maxHeight) {
+          SmartDashboard.putNumber("Output for Elevator", output);  
         }
-        // liftMotor.getSelectedSensorPosition()
         liftMotor.set(PercentOutput, output);
     }
 
