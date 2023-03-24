@@ -29,7 +29,8 @@ public class AimAssistCmd extends CommandBase {
         offset = vision.getXOffset();
         SmartDashboard.putNumber("x_off", offset);
         SmartDashboard.putNumber("area", vision.getArea());
-        fourTurtles.motorOverride(offset, offset);
+        //double left = 
+        //fourTurtles.motorOverride(placeholderleft, placeholderright);
         
         if (offset < -5) {
             fourTurtles.motorOverride(-.3, .3);

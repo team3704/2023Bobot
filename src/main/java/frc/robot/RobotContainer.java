@@ -78,6 +78,7 @@ public class RobotContainer {
       sub_elevator.resetEncoder();
       //sub_arm.resetEncoder();
     }));
+    stickjoy.button(3).whileTrue(run(() -> sub_arm.maxHeight -= -stickjoy.getY() * 1500));
     controller.a().whileTrue(cmd_AimCones);
     controller.b().whileTrue(cmd_AimCubes);
     controller.leftTrigger(0.6).whileTrue(cmd_elevatorDown);

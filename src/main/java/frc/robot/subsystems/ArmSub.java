@@ -15,7 +15,7 @@ import static com.ctre.phoenix.motorcontrol.TalonFXControlMode.*;
 public class ArmSub extends SubsystemBase {
     public final PIDController armPidController = new PIDController(0.000028, 0.0000001, 0.000004);
     private double position = 0;
-    private double maxHeight = -67500;
+    public double maxHeight = -100000;
     public final TalonFX // change both to private final when done testing
         motorLeft = new TalonFX(Arm_Left),
         motorRight = new TalonFX(Arm_Right);
