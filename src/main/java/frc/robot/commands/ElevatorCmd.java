@@ -23,7 +23,6 @@ public class ElevatorCmd extends CommandBase {
 
     @Override public void
     initialize() {
-        elevator.pidReset();
     }
 
     @Override public void

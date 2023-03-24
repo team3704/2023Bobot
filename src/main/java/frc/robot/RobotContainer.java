@@ -73,7 +73,10 @@ public class RobotContainer {
     stickjoy.button(10).onTrue(runOnce(() -> sub_arm.offsetEncoder(3000)));
 
     controller.povLeft().onTrue(runOnce(() -> {sub_arm.writePosition();}));
-    controller.x().onTrue(runOnce(() -> {sub_arm.resetEncoder();}));
+    controller.x().onTrue(runOnce(() -> {
+      sub_elevator.resetEncoder();
+      sub_arm.resetEncoder();
+    }));
     controller.a().whileTrue(cmd_AimCones);
     controller.b().whileTrue(cmd_AimCubes);
     controller.leftTrigger(0.6).whileTrue(cmd_elevatorDown);

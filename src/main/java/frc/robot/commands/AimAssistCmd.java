@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrainSub;
 import frc.robot.subsystems.VisionSub;
@@ -26,6 +27,8 @@ public class AimAssistCmd extends CommandBase {
     @Override public void
     execute() {
         offset = vision.getXOffset();
+        SmartDashboard.putNumber("x_off", offset);
+        SmartDashboard.putNumber("area", vision.getArea());
         fourTurtles.motorOverride(offset, offset);
         
         if (offset < -5) {
