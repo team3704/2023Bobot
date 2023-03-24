@@ -65,4 +65,8 @@ public class ArmSub extends SubsystemBase {
     public void unlockingmethod(){
         locked = false;
     }
+    public void offsetEncoder(double offset) {
+        motorRight.setSelectedSensorPosition(getPosition() + offset);
+        // Warning, could break physical bits and bobs
+    }
 }
