@@ -21,7 +21,7 @@ public class AutonomousCmd extends CommandBase {
         drivetrain.motorOverride(0.3, 0.3);
     }
 
-    @Override public boolean isFinished() {return t.get() > 0.4;}
+    @Override public boolean isFinished() {return t.get() > 2;}
 
     @Override public void
     end(boolean interrupted) {
