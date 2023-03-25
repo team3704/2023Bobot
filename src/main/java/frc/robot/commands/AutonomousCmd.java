@@ -18,7 +18,7 @@ public class AutonomousCmd extends CommandBase {
 
     @Override public void
     execute() {
-        drivetrain.motorOverride(0.3, 0.3);
+        drivetrain.motorOverride(0.3, -0.3);
     }
 
     @Override public boolean isFinished() {
