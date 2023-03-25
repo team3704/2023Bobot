@@ -34,6 +34,7 @@ public class RobotContainer {
     cmd_autonomousCmd = new AutonomousCmd(actualDrive);
   
   public static double testSpeed = 0.55;
+  public static double elevatorTest = .5;
   
   // The robot's subsystems and commands are defined here...
 
@@ -74,7 +75,7 @@ public class RobotContainer {
     stickjoy.button(11).whileTrue(run(() -> sub_arm.offsetEncoder(-1000)));
     stickjoy.button(10).whileTrue(run(() -> sub_arm.offsetEncoder(1000)));
 
-    controller.povLeft().onTrue(runOnce(() -> {sub_arm.writePosition();}));
+    controller.povUpRight().onTrue(runOnce(() -> {sub_arm.writePosition();}));
     controller.x().onTrue(runOnce(() -> {
       sub_elevator.resetEncoder();
       //sub_arm.resetEncoder();
@@ -93,6 +94,17 @@ public class RobotContainer {
       testSpeed = MathUtil.clamp(testSpeed - 0.05, 0, 1);
       SmartDashboard.putNumber("Speed", testSpeed);
     }));
+    
+    controller.povRight().onTrue(runOnce(() -> {
+      testSpeed = MathUtil.clamp(elevatorTest + 0.05, 0, 1);
+      SmartDashboard.putNumber("Speed", elevatorTest);
+    }));
+    controller.povLeft().onTrue(runOnce(() -> {
+      testSpeed = MathUtil.clamp(elevatorTest - 0.05, 0, 1);
+      SmartDashboard.putNumber("Speed", elevatorTest);
+    }));
+    
+    
     // Remind to Change - Past Aldrin. //
 
     controller.y().onTrue(runOnce(() -> sub_arm.writePosition()));

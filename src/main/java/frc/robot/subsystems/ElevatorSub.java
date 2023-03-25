@@ -7,7 +7,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-import static com.ctre.phoenix.motorcontrol.TalonSRXControlMode.*;;
+import static com.ctre.phoenix.motorcontrol.TalonSRXControlMode.*;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;;
 
 public class ElevatorSub extends SubsystemBase {
     private final TalonSRX liftMotor = new TalonSRX(Constants.MotorIds.Elevator);
@@ -35,4 +37,9 @@ public class ElevatorSub extends SubsystemBase {
     public void resetEncoder() {
         liftMotor.setSelectedSensorPosition(0);
     }
+
+    public void motorOverride2 (double output) {
+        liftMotor.set(ControlMode.PercentOutput, output);
+}
+
 }
