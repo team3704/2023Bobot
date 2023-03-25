@@ -33,7 +33,7 @@ public class RobotContainer {
     cmd_AimCubes     = new AimAssistCmd(actualDrive, sub_vision, "Fiducial Markers"),
     cmd_autonomousCmd = new AutonomousCmd(actualDrive);
   
-  public static double testSpeed = 0.45;
+  public static double testSpeed = 0.55;
   
   // The robot's subsystems and commands are defined here...
 
