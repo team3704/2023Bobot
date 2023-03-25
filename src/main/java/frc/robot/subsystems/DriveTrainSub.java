@@ -26,7 +26,8 @@ public class DriveTrainSub extends SubsystemBase {
     }
 
 public void motorOverride (double output, double output2) {
-    frontleftmotor.set(ControlMode.PercentOutput, output);
+    // negative so that both turn in robots forward direction
+    frontleftmotor.set(ControlMode.PercentOutput, -output);
     frontrightmotor.set(ControlMode.PercentOutput, output2);
 }
 

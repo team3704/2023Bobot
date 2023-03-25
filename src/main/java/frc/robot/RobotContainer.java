@@ -13,12 +13,13 @@ import frc.robot.subsystems.*;
 
 import static edu.wpi.first.wpilibj2.command.Commands.runOnce;
 import static edu.wpi.first.wpilibj2.command.Commands.run;
+import static frc.robot.commands.AutonomousDriveCmd.autoDrive;
 
 public class RobotContainer {
   public static final CommandXboxController controller = new CommandXboxController(1);
   public static final CommandJoystick stickjoy = new CommandJoystick(0);
 
-  private final DriveTrainSub actualDrive  = new DriveTrainSub();
+  private final DriveTrainSub sub_drive  = new DriveTrainSub();
   private final ElevatorSub   sub_elevator = new ElevatorSub();
   private final ArmSub        sub_arm      = new ArmSub();
   private final ClawSub       sub_claw     = new ClawSub();
@@ -28,9 +29,9 @@ public class RobotContainer {
     cmd_elevatorUp   = new ElevatorCmd(sub_elevator, 1),
     cmd_elevatorDown = new ElevatorCmd(sub_elevator, -1),
     cmd_moveArm      = new ArmCmd(sub_arm, arm -> arm.pidMove(-RobotContainer.stickjoy.getY())),
-    cmd_AimCones     = new AimAssistCmd(actualDrive, sub_vision, "RetroReflective"),
-    cmd_AimCubes     = new AimAssistCmd(actualDrive, sub_vision, "Fiducial Markers"),
-    cmd_Autonomous = new AutonomousDriveCmd(actualDrive);
+    cmd_AimCones     = new AimAssistCmd(sub_drive, sub_vision, "RetroReflective"),
+    cmd_AimCubes     = new AimAssistCmd(sub_drive, sub_vision, "Fiducial Markers"),
+    cmd_Autonomous   = new AutonomousDriveCmd(sub_drive, 3.5, 0.3);
   
   public static double testSpeed = 0.55;
   public static double elevatorTest = .5;
@@ -123,6 +124,16 @@ public class RobotContainer {
     return cmd_Autonomous;
     // return cmd_ArmAutonomous.andThen(cmd_Autonomous);
     
+    // with autoDrive i just made
+    /*
+     * return autoDrive(sub_drive, 3.5, 0.3); // drives straight for 3.5 seconds at 0.3 output
+     * // this is the ame as returning cmd_Autonomous except
+     * // you don't hae to make multiple classes or explicit instances
+     * 
+     * return autoDrive(sub_drive, 3.5, 0.3).andThen(autoDrive(sub_drive, 100, -1, 1)); // two outputs for left and right are optional. Using only one like the one above is to set both of them at that value
+     * // this one will make it spin at full power after driving straight,
+     * // without needed to change the autonomous class :D
+     */
     
     /*
     new SequentialCommandGroup(null).andThen(null)
