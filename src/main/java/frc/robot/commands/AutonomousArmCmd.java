@@ -1,5 +1,39 @@
 package frc.robot.commands;
 
-public class AutonomousArmCmd {
-    
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.ArmSub;
+import frc.robot.subsystems.ClawSub;
+
+public class AutonomousArmCmd extends CommandBase {
+    private Timer ti = new Timer();
+    private ArmSub arm;
+    private ClawSub claw;
+
+    public AutonomousArmCmd(ArmSub arm) {
+        ti.stop(); ti.reset();
+        this.arm = arm; 
+    }
+
+    @Override public void
+    initialize() {
+        ti.start();
+    }
+
+    @Override public void
+    execute() {
+        
+    }
+
+    @Override public boolean
+    isFinished() {
+        return ti.get() > 3.5;
+    }
+
+    @Override public void
+    end(boolean interrupted) {
+        claw.openClaw();
+    }
+
+
 }
