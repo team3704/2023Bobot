@@ -30,7 +30,7 @@ public class RobotContainer {
     cmd_moveArm      = new ArmCmd(sub_arm, arm -> arm.pidMove(-RobotContainer.stickjoy.getY())),
     cmd_AimCones     = new AimAssistCmd(actualDrive, sub_vision, "RetroReflective"),
     cmd_AimCubes     = new AimAssistCmd(actualDrive, sub_vision, "Fiducial Markers"),
-    cmd_Autonomous = new AutonomousCmd(actualDrive);
+    cmd_Autonomous = new AutonomousDriveCmd(actualDrive);
   
   public static double testSpeed = 0.55;
   public static double elevatorTest = .5;
