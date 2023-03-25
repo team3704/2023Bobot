@@ -28,6 +28,7 @@ public class AutonomousArmCmd extends CommandBase {
     @Override public boolean
     isFinished() {
         return ti.get() > 1.5;
+        
         //if (getPosition = desiredPosition )
     }
 

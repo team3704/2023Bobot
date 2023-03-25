@@ -120,8 +120,20 @@ public class RobotContainer {
   }
 
   public Command getAutonomousSequence() {
-    return autoDrive(sub_drive, 3, 0.3).andThen(autoDrive(sub_drive, 1,-1, .5)).andThen(autoDrive(sub_drive, .5, .3));
-    
+    //Left Hand Start
+    return autoDrive(sub_drive, 3, .3).andThen(
+      autoDrive(sub_drive, 1, -.3, .3)).andThen(
+        autoDrive(sub_drive, .5, .3)).andThen(
+          autoDrive(sub_drive, 1, -.3, .3)).andThen(
+      autoDrive(sub_drive, .5, .3));
+
+
+      //Right Hand Start
+    //return autoDrive(sub_drive, 3, 0.3).andThen(
+      //autoDrive(sub_drive, 1,.5, -1)).andThen(
+        //autoDrive(sub_drive, .5, .3)).andThen(
+          //autoDrive(sub_drive, 1,.5, -1)).andThen(
+      //autoDrive(sub_drive, .5, .3));
     // return cmd_ArmAutonomous.andThen(cmd_AutonomousDriveCmd);
     
     // with autoDrive i just made
