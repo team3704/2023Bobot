@@ -22,12 +22,12 @@ public class AutonomousArmCmd extends CommandBase {
 
     @Override public void
     execute() {
-        
+        arm.autoPidMove(0);
     }
 
     @Override public boolean
     isFinished() {
-        return ti.get() > 3.5;
+        return ti.get() > 3;
     }
 
     @Override public void

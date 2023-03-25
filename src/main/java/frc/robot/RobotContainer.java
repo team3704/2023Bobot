@@ -121,7 +121,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousSequence() {
-    return cmd_Autonomous;
+    return autoDrive(sub_drive, 3.5, 0.3);
+    
     // return cmd_ArmAutonomous.andThen(cmd_Autonomous);
     
     // with autoDrive i just made
