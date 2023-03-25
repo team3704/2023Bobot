@@ -129,10 +129,10 @@ public class RobotContainer {
 
 
       //Right Hand Start
-    //return autoDrive(sub_drive, 3, 0.3).andThen(
-      //autoDrive(sub_drive, 1,.5, -1)).andThen(
+    //return autoDrive(sub_drive, 3, .3).andThen(
+      //autoDrive(sub_drive, 1, .3, -.3)).andThen(
         //autoDrive(sub_drive, .5, .3)).andThen(
-          //autoDrive(sub_drive, 1,.5, -1)).andThen(
+          //autoDrive(sub_drive, 1, .3, -.3)).andThen(
       //autoDrive(sub_drive, .5, .3));
     // return cmd_ArmAutonomous.andThen(cmd_AutonomousDriveCmd);
     
