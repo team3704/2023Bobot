@@ -30,7 +30,8 @@ public class RobotContainer {
     cmd_elevatorDown = new ElevatorCmd(sub_elevator, -1),
     cmd_moveArm      = new ArmCmd(sub_arm, arm -> arm.pidMove(-RobotContainer.stickjoy.getY())),
     cmd_AimCones     = new AimAssistCmd(sub_drive, sub_vision, "RetroReflective"),
-    cmd_AimCubes     = new AimAssistCmd(sub_drive, sub_vision, "Fiducial Markers");
+    cmd_AimCubes     = new AimAssistCmd(sub_drive, sub_vision, "Fiducial Markers"),
+    cmd_ArmAuto = new AutonomousArmCmd(sub_arm, sub_claw, -64500);
   
   public static double testSpeed = 0.55;
   public static double elevatorTest = .5;
@@ -121,19 +122,24 @@ public class RobotContainer {
 
   public Command getAutonomousSequence() {
     //Left Hand Start
-    return autoDrive(sub_drive, 3, .3).andThen(
-      autoDrive(sub_drive, 1, -.3, .3)).andThen(
-        autoDrive(sub_drive, .5, .3)).andThen(
-          autoDrive(sub_drive, 1, -.3, .3)).andThen(
-      autoDrive(sub_drive, .5, .3));
+    //return autoDrive(sub_drive, 3, .3).andThen(
+      //autoDrive(sub_drive, 1, -.3, .3)).andThen(
+        //autoDrive(sub_drive, 1, .3)).andThen(
+          //autoDrive(sub_drive, 1, -.3, .3)).andThen(
+      //autoDrive(sub_drive, 1.5, .3));
 
 
       //Right Hand Start
     //return autoDrive(sub_drive, 3, .3).andThen(
       //autoDrive(sub_drive, 1, .3, -.3)).andThen(
-        //autoDrive(sub_drive, .5, .3)).andThen(
+        //autoDrive(sub_drive, 1, .3)).andThen(
           //autoDrive(sub_drive, 1, .3, -.3)).andThen(
-      //autoDrive(sub_drive, .5, .3));
+          //autoDrive(sub_drive, 1.5, .3));
+
+    //Taxi
+    return cmd_ArmAuto.andThen(autoDrive(sub_drive, 3, .3)).andThen(
+      autoDrive(sub_drive, 1.5, -.3));  
+
     // return cmd_ArmAutonomous.andThen(cmd_AutonomousDriveCmd);
     
     // with autoDrive i just made

@@ -61,11 +61,6 @@ public class ArmSub extends SubsystemBase {
     }
 
     public void autoPidMove(double desiredPosition) {
-        // find distance between current position and desired, then divide that by the amount by how long you want the arm to take to move
-        // where you divide by 50 for every second, 25 for 0.5 seconds, 150 for 3 seconds, etc
-
-        // then increment like how pidMove() above does
-        wantedPosition = desiredPosition;
         motorRight.set(TalonFXControlMode.PercentOutput, desiredPosition);
     }
 
