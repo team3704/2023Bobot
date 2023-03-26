@@ -31,6 +31,7 @@ public class RobotContainer {
     cmd_moveArm      = new ArmCmd(sub_arm, arm -> arm.pidMove(-RobotContainer.stickjoy.getY())),
     cmd_AimCones     = new AimAssistCmd(sub_drive, sub_vision, "RetroReflective"),
     cmd_AimCubes     = new AimAssistCmd(sub_drive, sub_vision, "Fiducial Markers"),
+    cmd_ArmAuto = new AutonomousArmCmd(sub_arm, sub_claw, -64500),
     cmd_Drive        = new DriveCmd(sub_drive);
   
   public static double testSpeed = 0.55;
@@ -77,8 +78,8 @@ public class RobotContainer {
 
     controller.povUpRight().onTrue(runOnce(() -> {sub_arm.writePosition();}));
     controller.x().onTrue(runOnce(() -> {
-      sub_elevator.resetEncoder();
-      //sub_arm.resetEncoder();
+      //sub_elevator.resetEncoder();
+      sub_arm.resetEncoder();
     }));
     stickjoy.button(3).whileTrue(run(() -> sub_arm.maxHeight -= -stickjoy.getY() * 1500));
     controller.a().whileTrue(cmd_AimCones);
@@ -122,19 +123,24 @@ public class RobotContainer {
 
   public Command getAutonomousSequence() {
     //Left Hand Start
-    return autoDrive(sub_drive, 3, .3).andThen(
-      autoDrive(sub_drive, 1, -.3, .3)).andThen(
-        autoDrive(sub_drive, .5, .3)).andThen(
-          autoDrive(sub_drive, 1, -.3, .3)).andThen(
-      autoDrive(sub_drive, .5, .3));
+    //return autoDrive(sub_drive, 3, .3).andThen(
+      //autoDrive(sub_drive, 1, -.3, .3)).andThen(
+        //autoDrive(sub_drive, 1, .3)).andThen(
+          //autoDrive(sub_drive, 1, -.3, .3)).andThen(
+      //autoDrive(sub_drive, 1.5, .3));
 
 
       //Right Hand Start
     //return autoDrive(sub_drive, 3, .3).andThen(
       //autoDrive(sub_drive, 1, .3, -.3)).andThen(
-        //autoDrive(sub_drive, .5, .3)).andThen(
+        //autoDrive(sub_drive, 1, .3)).andThen(
           //autoDrive(sub_drive, 1, .3, -.3)).andThen(
-      //autoDrive(sub_drive, .5, .3));
+          //autoDrive(sub_drive, 1.5, .3));
+
+    //Taxi
+    return cmd_ArmAuto.andThen(autoDrive(sub_drive, 3, .3)).andThen(
+      autoDrive(sub_drive, 1.5, -.3)).andThen(runOnce(() -> sub_claw.closeClaw()));  
+
     // return cmd_ArmAutonomous.andThen(cmd_AutonomousDriveCmd);
     
     // with autoDrive i just made
