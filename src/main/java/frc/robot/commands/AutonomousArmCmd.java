@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSub;
 import frc.robot.subsystems.ClawSub;
@@ -22,6 +23,8 @@ public class AutonomousArmCmd extends CommandBase {
 
     @Override public void
     initialize() {
+        claw.closeClaw();
+        ti.reset();
         ti.start();
     }
 
@@ -29,19 +32,22 @@ public class AutonomousArmCmd extends CommandBase {
     @Override public void
     execute() {
         increment = MathUtil.clamp(
-            increment + -1280, -64000, -500
+            increment + -520, -60500, -500
         );
+        SmartDashboard.putNumber("desired pos for auto", increment);
         arm.autoPidMove(increment);
     }
 
     @Override public boolean
     isFinished() {
-        return ti.get() > 3 || arm.getPosition() >= desiredPosition - 2000;
+        SmartDashboard.putNumber("time", ti.get());
+        return ti.get() > 4 || arm.getPosition() <= desiredPosition - 2000;
     }
 
     @Override public void
     end(boolean interrupted) {
         claw.openClaw();
+        arm.setOutput(0);
     }
 
 

@@ -61,7 +61,7 @@ public class ArmSub extends SubsystemBase {
     }
 
     public void autoPidMove(double desiredPosition) {
-        motorRight.set(TalonFXControlMode.PercentOutput, desiredPosition);
+        motorRight.set(TalonFXControlMode.PercentOutput, armPidController.calculate(getPosition(), desiredPosition));
     }
 
     public void lockingmethod(){

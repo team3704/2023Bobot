@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -19,6 +20,7 @@ public class DriveTrainSub extends SubsystemBase {
         backrightmotor.follow(frontrightmotor);
     }
     @Override public void periodic() {
+        if(!DriverStation.isDisabled() && !DriverStation.isAutonomous())
         CtrlDrive.arcadeDrive(
             RobotContainer.controller.getRightX() * RobotContainer.testSpeed,
             RobotContainer.controller.getLeftY() * RobotContainer.testSpeed
