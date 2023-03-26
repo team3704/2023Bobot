@@ -77,8 +77,8 @@ public class RobotContainer {
 
     controller.povUpRight().onTrue(runOnce(() -> {sub_arm.writePosition();}));
     controller.x().onTrue(runOnce(() -> {
-      sub_elevator.resetEncoder();
-      //sub_arm.resetEncoder();
+      //sub_elevator.resetEncoder();
+      sub_arm.resetEncoder();
     }));
     stickjoy.button(3).whileTrue(run(() -> sub_arm.maxHeight -= -stickjoy.getY() * 1500));
     controller.a().whileTrue(cmd_AimCones);
@@ -137,8 +137,8 @@ public class RobotContainer {
           //autoDrive(sub_drive, 1.5, .3));
 
     //Taxi
-    return cmd_ArmAuto.andThen(autoDrive(sub_drive, 3, .3)).andThen(
-      autoDrive(sub_drive, 1.5, -.3));  
+    return cmd_ArmAuto.andThen(autoDrive(sub_drive, 3, .3))
+    .andThen(runOnce(() -> sub_claw.closeClaw()));  
 
     // return cmd_ArmAutonomous.andThen(cmd_AutonomousDriveCmd);
     
