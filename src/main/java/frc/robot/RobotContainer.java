@@ -137,8 +137,8 @@ public class RobotContainer {
           //autoDrive(sub_drive, 1.5, .3));
 
     //Taxi
-    return cmd_ArmAuto.andThen(autoDrive(sub_drive, 3, .3))
-    .andThen(runOnce(() -> sub_claw.closeClaw()));  
+    return cmd_ArmAuto.andThen(autoDrive(sub_drive, 3, .3)).andThen(
+      autoDrive(sub_drive, 1.5, -.3)).andThen(runOnce(() -> sub_claw.closeClaw()));  
 
     // return cmd_ArmAutonomous.andThen(cmd_AutonomousDriveCmd);
     
