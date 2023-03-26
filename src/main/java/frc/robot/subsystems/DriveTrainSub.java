@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -28,7 +29,7 @@ public class DriveTrainSub extends SubsystemBase {
     }
 
 public void motorOverride (double output, double output2) {
-    // negative so that both turn in robots forward direction
+    // negative so that both turn in robots (backward apparently) direction
     frontleftmotor.set(ControlMode.PercentOutput, -output);
     frontrightmotor.set(ControlMode.PercentOutput, output2);
 }
