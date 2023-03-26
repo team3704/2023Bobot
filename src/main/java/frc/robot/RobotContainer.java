@@ -9,11 +9,12 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.*;
+import frc.robot.commands.auto.AutonomousArmCmd;
 import frc.robot.subsystems.*;
 
 import static edu.wpi.first.wpilibj2.command.Commands.runOnce;
+import static frc.robot.commands.auto.AutonomousDriveCmd.autoDrive;
 import static edu.wpi.first.wpilibj2.command.Commands.run;
-import static frc.robot.commands.AutonomousDriveCmd.autoDrive;
 
 public class RobotContainer {
   public static final CommandXboxController controller = new CommandXboxController(1);
@@ -31,7 +32,7 @@ public class RobotContainer {
     cmd_moveArm      = new ArmCmd(sub_arm, arm -> arm.pidMove(-RobotContainer.stickjoy.getY())),
     cmd_AimCones     = new AimAssistCmd(sub_drive, sub_vision, "RetroReflective"),
     cmd_AimCubes     = new AimAssistCmd(sub_drive, sub_vision, "Fiducial Markers"),
-    cmd_ArmAuto = new AutonomousArmCmd(sub_arm, sub_claw, -64500),
+    cmd_ArmAuto      = new AutonomousArmCmd(sub_arm, sub_claw, -64500),
     cmd_Drive        = new DriveCmd(sub_drive);
   
   public static double testSpeed = 0.55;
@@ -111,7 +112,7 @@ public class RobotContainer {
     controller.y().onTrue(runOnce(() -> sub_arm.writePosition()));
   }
   public void scheduleTeleop() {
-    CommandScheduler.getInstance().schedule(cmd_moveArm);
+    CommandScheduler.getInstance().schedule(cmd_moveArm, cmd_Drive);
   }
   public void descheduleTeleop() {
     CommandScheduler.getInstance().cancelAll();
@@ -138,8 +139,10 @@ public class RobotContainer {
           //autoDrive(sub_drive, 1.5, .3));
 
     //Taxi
-    return cmd_ArmAuto.andThen(autoDrive(sub_drive, 3, .3)).andThen(
-      autoDrive(sub_drive, 1.5, -.3)).andThen(runOnce(() -> sub_claw.closeClaw()));  
+    return cmd_ArmAuto
+      .andThen(autoDrive(sub_drive, 3, .3))
+      .andThen(autoDrive(sub_drive, 1.5, -.3))
+      .andThen(runOnce(() -> sub_claw.closeClaw()));
 
     // return cmd_ArmAutonomous.andThen(cmd_AutonomousDriveCmd);
     
