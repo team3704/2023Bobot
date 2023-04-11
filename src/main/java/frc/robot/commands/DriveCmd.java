@@ -15,8 +15,8 @@ public class DriveCmd extends CommandBase {
     @Override public void
     execute() {
         drivetrain.CtrlDrive.arcadeDrive(
-            controller.getRightX() * testSpeed,
-            controller.getLeftY() * testSpeed
+            driveController.getRightX() * testSpeed,
+            driveController.getLeftY() * testSpeed
         );
     }
 

@@ -15,6 +15,7 @@ public class DriveTrainSub extends SubsystemBase {
     public DriveTrainSub() {
         backleftmotor.follow(frontleftmotor);
         backrightmotor.follow(frontrightmotor);
+        CtrlDrive.setSafetyEnabled(false); // Screw safety
     }
 
 public void motorOverride (double output, double output2) {

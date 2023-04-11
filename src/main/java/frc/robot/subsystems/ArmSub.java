@@ -26,14 +26,14 @@ public class ArmSub extends SubsystemBase {
         motorLeft.setInverted(TalonFXInvertType.OpposeMaster);
         motorRight.setSelectedSensorPosition(0);
     }
+    
 
     @Override public void
     periodic() {
         SmartDashboard.putNumber("Right Motor Encoder", motorRight.getSelectedSensorPosition());
     }
 
-    public void
-    setOutput(double output) {
+    public void setOutput(double output) {
         motorRight.set(PercentOutput, output);
         // motorRight.set(TalonFXControlMode.Position, output);
         // HOLY HECK IS THAT POSITION CONTROL WITHOUT PID???
@@ -50,18 +50,18 @@ public class ArmSub extends SubsystemBase {
     }
     public void pidMove(double triggerValue) {
         if(!locked){
-            //wantedPosition = (triggerValue * maxHeight) -500;
             wantedPosition = MathUtil.clamp(
                 wantedPosition + MathUtil.applyDeadband(triggerValue, 0.05) * -1500, maxHeight, -500
             );
         }
-        
-        SmartDashboard.putNumber("desired", wantedPosition);
-        motorRight.set(TalonFXControlMode.PercentOutput, armPidController.calculate(getPosition(), wantedPosition));
+        double output = armPidController.calculate(getPosition(), wantedPosition);
+        SmartDashboard.putNumber("wanted pos", wantedPosition);
+        SmartDashboard.putNumber("trigger val", triggerValue);
+        motorRight.set(TalonFXControlMode.PercentOutput, output);
     }
 
     public void autoPidMove(double desiredPosition) {
-        motorRight.set(TalonFXControlMode.PercentOutput, armPidController.calculate(getPosition(), desiredPosition));
+        motorRight.set(TalonFXControlMode.PercentOutput, 0);//armPidController.calculate(getPosition(), desiredPosition));
     }
 
     public void lockingmethod(){
