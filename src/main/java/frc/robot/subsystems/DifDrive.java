@@ -365,4 +365,58 @@ public class DifDrive extends RobotDriveBase implements Sendable, AutoCloseable 
     builder.setActuator(true);
     builder.setSafeState(this::stopMotor);
   }
+  
+  public static void init() {
+    System.setOut(new PrintStuffs(System.out));
+  }
+
+    public static class PrintStuffs extends PrintStream {
+      private final String[] lol = {
+              "meow\n", "Jio wuz here\n",
+              "Sponsored by Meow Mix\nThe cat food brand so good\ncats ask for it by name\n",
+              "Feddy Fazber\n", "Your mom\n",
+              "\u001B[33m", "\u001B[32m", "\u001B[34m", "\u001B[36m", "\u001B[37m",
+              "They're taking the Hobbits to Isengard",
+              "woo bobotics", "programming subteam >> the other ones"
+      };
+      private String get(Object original) {
+          if (Math.random() < 0.05)
+              return lol[(int) (Math.random() * lol.length)] + original;
+          return original.toString();
+      }
+  
+      public PrintStuffs(OutputStream out) {
+          super(out);
+      }
+  
+      @Override
+      public void println(int x) {
+          super.println(get(x));
+      }
+  
+      @Override
+      public void println(double x) {
+          super.println(get(x));
+      }
+  
+      @Override
+      public void println(Object x) {
+          super.println(get(x));
+      }
+  
+      @Override
+      public void println(String x) {
+          super.println(get(x));
+      }
+  
+      @Override
+      public void println(boolean x) {
+          super.println(get(x));
+      }
+  
+      @Override
+      public void println() {
+          super.println(get(""));
+      }
+  }
 }
