@@ -44,6 +44,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     DriverStation.silenceJoystickConnectionWarning(true);
+    DifDrive.init(); // accept this in merge, do not discard
 
     configureBindings(); // x = cones y = boxes
   }
